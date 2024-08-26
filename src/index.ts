@@ -2,16 +2,23 @@ import express, { Express, Request, Response } from "express";
 import dotenv from "dotenv";
 import { environment } from './config/environment';
 import connectToDatabase from "./config/database";
+import cors from 'cors';
+import routes from './routes/index'
 dotenv.config();
 
 const app: Express = express();
 const port = environment.port || 3000;
-
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
 connectToDatabase();
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Express + TypeScriptd Server");
 });
+app.use('/api', routes);
 
 app.listen(port, () => {
   console.log(`[server]: Server is running at http://localhost:${port}`);
