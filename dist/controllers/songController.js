@@ -16,9 +16,6 @@ exports.deleteSong = exports.updateSong = exports.getSongById = exports.getSongs
 const songModel_1 = __importDefault(require("../models/songModel"));
 const createSong = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        console.log('====================================');
-        console.log(req.body);
-        console.log('====================================');
         const { title, artist, album, genre } = req.body;
         const newSong = new songModel_1.default({ title, artist, album, genre });
         const savedSong = yield newSong.save();
