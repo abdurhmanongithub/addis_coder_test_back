@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import titleRoutes from './titleRoutes';
+import songRoutes from './songRoutes';
 const router = Router();
-router.use('/titles', titleRoutes);
+router.use('/songs', songRoutes);
 export default router;

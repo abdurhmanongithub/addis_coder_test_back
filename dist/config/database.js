@@ -17,7 +17,8 @@ const environment_1 = require("./environment");
 // Connect to MongoDB
 const connectToDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        yield mongoose_1.default.connect(environment_1.environment.databaseUrl);
+        yield mongoose_1.default.connect(environment_1.environment.databaseUrl, {});
+        mongoose_1.default.set('strictQuery', true);
         console.log('Successfully connected to the database');
     }
     catch (error) {
