@@ -1,9 +1,10 @@
 import { Router } from 'express';
-import { getSongs, getSongById, createSong, updateSong, deleteSong } from '../controllers/songController';
+import { getSongs, getSongById, createSong, updateSong, deleteSong, getStatistics } from '../controllers/songController';
 
 const router = Router();
-
 router.get('/', getSongs);
+
+router.get('/statistics', getStatistics);
 
 router.get('/:id', getSongById);
 

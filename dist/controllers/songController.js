@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteSong = exports.updateSong = exports.getSongById = exports.getSongs = exports.createSong = void 0;
+exports.getStatistics = exports.deleteSong = exports.updateSong = exports.getSongById = exports.getSongs = exports.createSong = void 0;
 const songModel_1 = __importDefault(require("../models/songModel"));
 const createSong = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -75,3 +75,35 @@ const deleteSong = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
     }
 });
 exports.deleteSong = deleteSong;
+const getStatistics = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const totalSongs = yield songModel_1.default.countDocuments();
+        const totalArtists = yield songModel_1.default.distinct('artist').countDocuments();
+        const totalAlbums = yield songModel_1.default.distinct('album').countDocuments();
+        const totalGenres = yield songModel_1.default.distinct('genre').countDocuments();
+        const songsByGenre = yield songModel_1.default.aggregate([
+            { $group: { _id: '$genre', count: { $sum: 1 } } }
+        ]);
+        const songsAndAlbumsByArtist = yield songModel_1.default.aggregate([
+            { $group: { _id: '$artist', songs: { $sum: 1 }, albums: { $addToSet: '$album' } } },
+            { $project: { artist: '$_id', songs: 1, albums: { $size: '$albums' }, _id: 0 } }
+        ]);
+        const songsByAlbum = yield songModel_1.default.aggregate([
+            { $group: { _id: '$album', count: { $sum: 1 } } }
+        ]);
+        res.json({
+            totalSongs,
+            totalArtists,
+            totalAlbums,
+            totalGenres,
+            songsByGenre,
+            songsAndAlbumsByArtist,
+            songsByAlbum
+        });
+    }
+    catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
+});
+exports.getStatistics = getStatistics;

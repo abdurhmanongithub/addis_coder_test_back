@@ -4,6 +4,7 @@ const express_1 = require("express");
 const songController_1 = require("../controllers/songController");
 const router = (0, express_1.Router)();
 router.get('/', songController_1.getSongs);
+router.get('/statistics', songController_1.getStatistics);
 router.get('/:id', songController_1.getSongById);
 router.post('/', songController_1.createSong);
 router.put('/:id', songController_1.updateSong);
