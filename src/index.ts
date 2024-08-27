@@ -11,9 +11,9 @@ const port = environment.port || 3000;
 app.use(express.json());
 
 app.use(cors({
-  origin: '*',
+  // origin: '*',
+  origin: ['https://song-rosy.vercel.app', 'http://localhost:3000'],
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
 }));
 connectToDatabase();
 

@@ -14,9 +14,9 @@ const app = (0, express_1.default)();
 const port = environment_1.environment.port || 3000;
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
-    origin: '*',
+    // origin: '*',
+    origin: ['https://song-rosy.vercel.app', 'http://localhost:3000'],
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    credentials: true
 }));
 (0, database_1.default)();
 app.get("/", (req, res) => {
